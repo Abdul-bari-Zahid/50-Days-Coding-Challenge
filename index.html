@@ -1,313 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Password Generator</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age Calculator</title>
     <style>
-        /* Global Styling */
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-            /* Light blue gradient */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+      /* Global Styles */
+      body {
+        font-family: "Montserrat", sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #fff;
+        text-align: center;
+      }
+
+      /* Card Styles */
+      .card {
+        background: #fff; /* White Card */
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 400px;
+        box-sizing: border-box;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .card:hover {
+        transform: translateY(-8px);
+      }
+
+      /* Header */
+      header h1 {
+        font-size: 2.5rem;
+        color: #6a1b9a; /* Dark Purple for the Header */
+        margin-bottom: 25px;
+        letter-spacing: 1px;
+      }
+
+      /* Label and Input Styles */
+      label {
+        font-size: 1.1rem;
+        color: #6a1b9a;
+        margin-bottom: 8px;
+        text-align: left;
+        display: block;
+      }
+
+      input[type="date"] {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 8px;
+        border: 1px solid #6a1b9a;
+        font-size: 1rem;
+        transition: border 0.3s ease-in-out;
+        box-sizing: border-box;
+      }
+
+      input[type="date"]:focus {
+        border-color: #9c27b0; /* Light Purple on Focus */
+        outline: none;
+      }
+
+      button {
+        background: #9c27b0; /* Light Purple Button */
+        border: none;
+        padding: 12px 20px;
+        color: #fff;
+        font-size: 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background: #7b1fa2; /* Darker Purple on Hover */
+      }
+
+      /* Result Styles */
+      #currentAge {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #6a1b9a;
+      }
+
+      #errorMessage {
+        color: #e57373; /* Soft Red for Error */
+        font-size: 1rem;
+        margin-top: 15px;
+      }
+
+      small {
+        font-size: 0.9rem;
+        color: #666; /* Light Gray for Notes */
+      }
+
+      /* Reset Button Styles */
+      .reset-button {
+        background: #e57373; /* Red for Reset */
+        margin-top: 10px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 600px) {
+        .card {
+          width: 90%;
+          padding: 25px;
         }
-
-        .container {
-            background: #ffffff;
-            width: 100%;
-            max-width: 400px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            padding: 25px;
-            text-align: center;
-            box-sizing: border-box;
-        }
-
-        h1 {
-            color: #2e3a59;
-            /* Dark blue for heading */
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        p {
-            font-size: 1rem;
-            color: #333333;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        .password-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f7f7f7;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
-
-        .password-box input {
-            border: none;
-            background: transparent;
-            width: 75%;
-            font-size: 1rem;
-            color: #333;
-            text-align: center;
-        }
-
-        .password-strength {
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 10px;
-            display: inline-block;
-            text-transform: capitalize;
-        }
-
-        .length-options {
-            margin-bottom: 15px;
-        }
-
-        .length-options select {
-            font-size: 1rem;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 100%;
-            background-color: #ffffff;
-        }
-
-        .length-display {
-            font-size: 1rem;
-            margin-top: 5px;
-            color: #2e3a59;
-            /* Dark blue */
-            font-weight: bold;
-        }
-
-        .character-options {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .character-options label {
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            margin: 8px 12px;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .character-options input {
-            margin-right: 8px;
-        }
-
-        /* Button Styling */
-        .button-container {
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 14px 28px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 8px;
-            background-color: #007bff;
-            /* Blue for Generate Password */
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s ease-in-out, box-shadow 0.3s;
-            width: 100%;
-            /* Full width for both buttons */
-            margin-bottom: 10px;
-            /* Add spacing between buttons */
-        }
-
-        button:hover {
-            background-color: #0056b3;
-            /* Darker blue for hover */
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 91, 187, 0.2);
-        }
-
-        #resetButton {
-            background-color: #dc3545;
-            /* Red for Reset */
-        }
-
-        #resetButton:hover {
-            background-color: #c82333;
-            /* Darker red for hover */
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(200, 35, 51, 0.3);
-        }
-
-        /* Responsiveness */
-        @media (max-width: 768px) {
-            .character-options {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
-            button {
-                width: 100%;
-                /* Full width buttons on smaller screens */
-                margin-top: 10px;
-            }
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <div class="container">
-        <h1>Password Generator</h1>
-        <p>Generate secure and reliable passwords. Customize characters and password strength.</p>
+  <body>
+    <div class="card">
+      <header>
+        <h1>Age Calculator</h1>
+      </header>
 
-        <div class="password-box">
-            <input id="passwordDisplay" type="text" readonly placeholder="Your generated password">
-            <span id="strength" class="password-strength" style="display: none;"></span>
-        </div>
+      <div>
+        <label for="inputDob">Enter your Date of Birth</label>
+        <input id="inputDob" type="date" max="2023-12-31" />
+        <small>Note: Please enter a valid date of birth.</small>
+      </div>
 
-        <div class="length-options">
-            <label for="passwordLengthSelect">Choose Password Length:</label>
-            <select id="passwordLengthSelect" onchange="updatePasswordLength()">
-                <option value="6">6 characters</option>
-                <option value="8">8 characters</option>
-                <option value="10">10 characters</option>
-                <option value="12">12 characters</option>
-                <option value="14">14 characters</option>
-                <option value="16">16 characters</option>
-            </select>
-            <div id="lengthDisplay" class="length-display">Length: 6 characters</div>
-        </div>
+      <br />
 
-        <div class="character-options">
-            <label><input type="checkbox" id="includeUppercase"> Uppercase (ABC)</label>
-            <label><input type="checkbox" id="includeLowercase"> Lowercase (abc)</label>
-            <label><input type="checkbox" id="includeNumbers"> Numbers (123)</label>
-            <label><input type="checkbox" id="includeSymbols"> Symbols (#$&)</label>
-        </div>
+      <div>
+        <label for="cdate">Enter Current Date</label>
+        <input id="cdate" type="date" value="" />
+        <small>Note: Please enter today's date or a valid date.</small>
+      </div>
 
-        <div class="button-container">
-            <button onclick="generatePassword()">Generate Password</button>
-            <button id="resetButton" onclick="resetPassword()">Reset</button>
-        </div>
+      <br />
+
+      <button type="button" onclick="getDOB()">Calculate Age</button>
+
+      <button type="button" class="reset-button" onclick="resetForm()">
+        Reset
+      </button>
+
+      <div id="errorMessage"></div>
+
+      <div id="currentAge"></div>
     </div>
 
     <script>
-        const passwordDisplay = document.getElementById('passwordDisplay');
-        const strengthLabel = document.getElementById('strength');
-        const lengthSelect = document.getElementById('passwordLengthSelect');
-        const lengthDisplay = document.getElementById('lengthDisplay');
+      function getDOB() {
+        // Clear previous error or result
+        document.getElementById("errorMessage").textContent = "";
+        document.getElementById("currentAge").textContent = "";
 
-        const options = {
-            includeUppercase: document.getElementById('includeUppercase'),
-            includeLowercase: document.getElementById('includeLowercase'),
-            includeNumbers: document.getElementById('includeNumbers'),
-            includeSymbols: document.getElementById('includeSymbols')
-        };
+        // Get the values from the input fields
+        const dobInput = document.getElementById("inputDob").value;
+        const currentDateInput = document.getElementById("cdate").value;
 
-        // Update the password length label based on selection
-        function updatePasswordLength() {
-            const selectedLength = lengthSelect.value;
-            lengthDisplay.textContent = `Length: ${selectedLength} characters`;
-            generatePassword();  // Regenerate password based on the new length
+        // Validate if both dates are provided
+        if (!dobInput || !currentDateInput) {
+          document.getElementById("errorMessage").textContent =
+            "Please enter both Date of Birth and Current Date.";
+          return;
         }
 
-        // Generate password based on selected options
-        function generatePassword() {
-            const length = parseInt(lengthSelect.value); // Get selected length
-            let charset = "";
-            let password = "";
+        // Convert input values to Date objects
+        const dob = new Date(dobInput);
+        const currentDate = new Date(currentDateInput);
 
-            // Add selected character types to the charset
-            if (options.includeUppercase.checked) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            if (options.includeLowercase.checked) charset += "abcdefghijklmnopqrstuvwxyz";
-            if (options.includeNumbers.checked) charset += "0123456789";
-            if (options.includeSymbols.checked) charset += "!@#$%^&*()_+[]{}|;:,.<>?";
-
-            if (!charset) {
-                passwordDisplay.value = "Select options!";
-                strengthLabel.style.display = "none";
-                return;
-            }
-
-            // Generate the password with the selected length
-            for (let i = 0; i < length; i++) {
-                const randomIndex = Math.floor(Math.random() * charset.length);
-                password += charset[randomIndex];
-            }
-            passwordDisplay.value = password;
-            checkStrength(password);
+        // Check if the dates are valid
+        if (dob > currentDate) {
+          document.getElementById("errorMessage").textContent =
+            "Date of Birth cannot be in the future.";
+          return;
         }
 
-        // Check the strength of the generated password
-        function checkStrength(password) {
-            let strength = "Weak";
-            let color = "#ff6347";
-            const hasUpperCase = /[A-Z]/.test(password);
-            const hasLowerCase = /[a-z]/.test(password);
-            const hasNumbers = /[0-9]/.test(password);
-            const hasSymbols = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
-            if (password.length >= 12 && hasUpperCase && hasLowerCase && hasNumbers && hasSymbols) {
-                strength = "Strong";
-                color = "#28a745";
-            } else if (password.length >= 8 && ((hasUpperCase && hasLowerCase) || hasNumbers || hasSymbols)) {
-                strength = "Medium";
-                color = "#ffc107";
-            }
-
-            strengthLabel.textContent = strength;
-            strengthLabel.style.background = color;
-            strengthLabel.style.display = "inline-block";
+        if (currentDate > new Date()) {
+          document.getElementById("errorMessage").textContent =
+            "Current Date cannot be in the future.";
+          return;
         }
 
-        // Reset the password generator to default settings
-        function resetPassword() {
-            // Reset the password box
-            passwordDisplay.value = "";
-            strengthLabel.style.display = "none";
+        // Calculate age in years, months, and days
+        let ageInYears = currentDate.getFullYear() - dob.getFullYear();
+        let ageInMonths = currentDate.getMonth() - dob.getMonth();
+        let ageInDays = currentDate.getDate() - dob.getDate();
 
-            // Uncheck all checkboxes
-            options.includeUppercase.checked = false;
-            options.includeLowercase.checked = false;
-            options.includeNumbers.checked = false;
-            options.includeSymbols.checked = false;
-
-            // Reset to default length (6 characters)
-            lengthSelect.value = "6";
-            lengthDisplay.textContent = "Length: 6 characters";
-
-            // Don't generate password on reset, keeping the box empty
+        // Adjust age if the birthday hasn't occurred yet this year
+        if (ageInMonths < 0 || (ageInMonths === 0 && ageInDays < 0)) {
+          ageInYears--;
+          ageInMonths += 12;
         }
 
-        window.onload = () => {
-            // Keep the password box empty on page load
-            passwordDisplay.value = "";
-            strengthLabel.style.display = "none";
-        };
+        if (ageInDays < 0) {
+          const daysInPreviousMonth = new Date(
+            currentDate.getFullYear(),
+            currentDate.getMonth(),
+            0
+          ).getDate();
+          ageInDays += daysInPreviousMonth;
+          ageInMonths--;
+        }
+
+        // Display the result in detailed format
+        document.getElementById(
+          "currentAge"
+        ).textContent = `You are ${ageInYears} years, ${ageInMonths} months, and ${ageInDays} days old.`;
+      }
+
+      function resetForm() {
+        // Reset the input fields and result message
+        document.getElementById("inputDob").value = "";
+        document.getElementById("cdate").value = "";
+        document.getElementById("errorMessage").textContent = "";
+        document.getElementById("currentAge").textContent = "";
+      }
+
+      // Set the max current date to today's date dynamically
+      document.getElementById("cdate").max = new Date()
+        .toISOString()
+        .split("T")[0];
     </script>
-</body>
-
+  </body>
 </html>
-
